@@ -29,20 +29,37 @@
 		ctx.arc(0,0,r - (ctx.lineWidth / 2) ,0,2*Math.PI);
 		ctx.stroke();
 		ctx.closePath();
+
 	}	
 	//绘制时钟刻度
 	function drawHoursRange(){
-		var houseNum = [3,4,5,6,7,8,9,10,11,12];
+		var houseNum = [3,4,5,6,7,8,9,10,11,12,1,2];
 		ctx.beginPath();
-		ctx.font = "28px Arial";
+		ctx.font = "20px Arial";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		houseNum.forEach(function(item,i){
-			var x = Math.sin(2 * Math.PI / 12 * i);
-			var y = Math.cos(2 * Math.PI / 12 * i);
+			var rad = 2 * Math.PI / 12 * i;
+			var x = Math.cos(rad) * (r - 32);
+			var y = Math.sin(rad) * (r - 32);
 			ctx.fillText(item,x,y);
 		});
-		ctx.stroke();
+		for(var i = 0;i<60;i++){
+			var rad = 2 * Math.PI / 60 * i;
+			var x = Math.cos(rad) * (r - 18);
+			var y = Math.sin(rad) * (r - 18);
+			if(i % 5 == 0){
+				
+				ctx.fillStyle = "#000";
+			}else{
+ctx.fillStyle = "#ccc";
+			}
+			ctx.beginPath();
+			ctx.arc(x, y, 2 , 0 , 2 * Math.PI, false);
+			ctx.fill();
+		}
+
+		
 		ctx.closePath();
 	}
 	drawBakcgorund();
