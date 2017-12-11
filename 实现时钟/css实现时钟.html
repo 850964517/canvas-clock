@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>css实现钟表动画</title>
+	<style>
+		.clock-bg{
+			width: 150px;
+			height: 150px;
+			margin: 100px auto;
+			border-radius: 10px;
+			background-image:linear-gradient(to bottom, #484848 0%,#393939 25%, #494949 50%,#494949 50%,#040404 50%,#0d0d0d 75%,#11110f 100%);
+			border:2px solid #010101;
+			display:flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+		}
+		/*时钟的背景图*/
+		.clock{
+			width: 100px;
+			height: 100px;
+			background:#fff url("https://cssanimation.rocks/images/posts/clocks/ios_clock.svg") no-repeat center center;
+			margin: 6px 0;
+			position: relative;
+			border-radius: 50%;
+			background-size: 86%;
+			box-shadow:0 0 2px rgba(67,67,67,0.3);
+		}
+		.address{
+	      	color:#fff;
+	      	text-shadow:0 0 1px rgba(0,0,0,0.2);
+    	}
+    	#wu{
+      		color:#101010;
+      		text-shadow:0 0 1px rgba(255,255,255,0.2);
+    	}
+    	/*时钟的圆心*/
+    	.clock::after{
+    		content: "";
+    		display: block;
+    		width: 6px;
+    		height: 6px;
+    		border-radius: 50%;
+    		position: absolute;
+    		top: 50%;
+    		left: 50%;
+    		z-index: 10;
+    		transform: translate(-50%,-50%);
+    		background: #e43c39;
+    		border:2px solid #fff;
+    		box-shadow: 0 0 0 1px #454449;
+    		/*这段代码可以看出background在最里层,然后是border,然后是box-shadow*/
+    	}
+    	/*时针,分针,秒钟 box*/	
+    	.hours-con,.minutes-con,.seconds-con{
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+    	}
+    	/*秒针box*/
+    	.seconds-con{
+    		z-index: 12;
+    	}
+		/*时针,分针 icon通用*/
+		.hours,.minutes{
+			position: absolute;
+    		border-left: 4px solid transparent;
+    		border-right: 4px solid transparent;
+    		left: 50%;
+    		margin-left: -4px;
+    		transform-origin: 50% 100%;
+		}
+    	/*时针*/
+    	.hours{
+    		border-bottom: 30px solid #000;
+    		top: 22%;
+    	}
+    	/*分针*/
+    	.minutes{
+    		border-bottom: 40px solid #000;
+    		top: 14%; 
+    	}
+    	.seconds{
+    		position: absolute;
+    		width: 2px;
+    		height: 48%;
+    		top: 5%;
+    		left: 50%;
+    		background: #e43c39;
+    		transform-origin: 50% 100%;
+    	}
+    	/*.hours-con{
+    		animation: rotate 43200s infinite linear;
+    	}
+    	.minutes-con{
+    		animation: rotate 3600s infinite steps(60);
+    		transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+    	}
+    	.seconds-con{
+    		animation: rotate 60s infinite steps(60);
+    		transition: transform 0.2s cubic-bezier(.4,2.08,.55,.44);
+    	}
+    	@keyframes rotate{
+		    to{
+		        transform:rotate(360deg);
+		    }
+		}
+		.minutes-con{
+  			transition: transform 0.3s cubic-bezier(.4,2.08,.55,.44);
+		}
+		.seconds-con{
+		  transition: transform 0.2s cubic-bezier(.4,2.08,.55,.44);
+		}*/
+	</style>
+</head>
+<body>
+	<div class="clock-bg">
+		<span id="wu">下午</span>
+		<div class="clock">
+			<!-- 小时指针 -->
+			<div class="hours-con"> 
+            	<div class="hours"></div>
+        	</div>
+        	<!-- 分钟指针 -->
+        	<div class="minutes-con">
+            	<div class="minutes"></div>
+        	</div>
+        	<!-- 秒指针 -->
+        	<div class="seconds-con">
+           		<div class="seconds"></div>
+        	</div>
+		</div>
+		<span class="address">北京</span>
+	</div>
+	<script type="text/javascript">
+		window.onload = function(){
+			function initLocalClock(){
+				var date = new Date();
+					hours = date.getHours(),
+					minutes = date.getMinutes(),
+					seconds = date.getSeconds();
+				var hands = [
+					{
+						hand:'hours',
+						angle: hours * 30 + minutes / 2
+					},
+					{
+						hand : 'minutes',
+						angle : minutes * 6
+					},
+					{
+						hand :'seconds',
+						angle : seconds * 6
+					}
+				];	
+				var elem = null;
+				for(var i = 0;i < hands.length;i++){
+					elem = document.querySelectorAll("." + hands[i].hand);
+					elem[0].style.transform = 'rotate(+'+ hands[i].angle +'deg)';
+					elem[0].style.WebkitTransform = 'rotate(+'+ hands[i].angle +'deg)';
+				}
+			}
+			//初始化
+			function init(){
+				initLocalClock();
+			};
+			setInterval(function(){
+				init();
+			},1000);
+		}
+	</script>
+</body>
+</html>

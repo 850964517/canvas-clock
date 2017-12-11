@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas实现时钟</title>
+	<style>
+		#clock{
+			border:1px solid #ccc;
+			display: block;
+			margin: 50px auto;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="clock" width="200" height="200"></canvas>
+</body>
+<script type="text/javascript">
+	var canvas = document.getElementById("clock");
+	var ctx = canvas.getContext("2d"),
+		width = ctx.canvas.width,
+		height = ctx.canvas.height,
+		r = width / 2;
+	//绘制背景圆	
+	function drawBakcgorund (){
+		ctx.lineWidth = 10;
+		//移动圆点到圆心的中心点
+		ctx.translate(r,r);
+		ctx.beginPath();
+		ctx.arc(0,0,r - (ctx.lineWidth / 2) ,0,2*Math.PI);
+		ctx.stroke();
+		ctx.closePath();
+	}	
+	//绘制时钟刻度
+	function drawHoursRange(){
+		var houseNum = [3,4,5,6,7,8,9,10,11,12];
+		ctx.beginPath();
+		ctx.font = "28px Arial";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "middle";
+		houseNum.forEach(function(item,i){
+			var x = Math.sin(2 * Math.PI / 12 * i);
+			var y = Math.cos(2 * Math.PI / 12 * i);
+			ctx.fillText(item,x,y);
+		});
+		ctx.stroke();
+		ctx.closePath();
+	}
+	drawBakcgorund();
+	drawHoursRange();
+</script>
+</html>
